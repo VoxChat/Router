@@ -1,4 +1,4 @@
-package org.golde.router.objects;
+package voxchat.router.objects;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -10,14 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.golde.router.Router;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
 
 import lombok.Getter;
+import voxchat.router.Router;
 
 public class Request {
 

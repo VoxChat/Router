@@ -1,4 +1,4 @@
-package org.golde.router.enums;
+package voxchat.router.enums;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

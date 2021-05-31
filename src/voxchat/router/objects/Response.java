@@ -1,4 +1,4 @@
-package org.golde.router.objects;
+package voxchat.router.objects;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,14 +9,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.golde.router.Router;
-import org.golde.router.enums.StatusCode;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
 
 import lombok.Getter;
+import voxchat.router.Router;
+import voxchat.router.enums.StatusCode;
 
 /**
  * The response that we are going to send out to the sender.
@@ -28,6 +27,8 @@ public class Response {
 	private final Router router;
 	private final HttpExchange exchange;
 	private StatusCode statusCode = StatusCode.OK;
+	
+	private String errorMessage = "No error message specified.";
 
 	/**
 	 * The headers that are sent back in the response
@@ -73,9 +74,38 @@ public class Response {
 	 * Sends raw json to the client
 	 * @param json the json to send
 	 */
-	public void sendJSON(JsonObject json) {
+	public void sendJSONRaw(JsonObject json) {
 		String text = router.getGson().toJson(json);
 		send("application/json", text);
+	}
+
+	public void sendJSON(JsonObject jsonIn) {
+
+		JsonObject obj = new JsonObject();
+		boolean success = this.statusCode.getCode() >= 200 && this.statusCode.getCode() < 300;
+		obj.addProperty("success", success);
+
+		if(success) {
+			if(jsonIn != null) {
+				obj.add("data", jsonIn);
+			}
+		}
+		else {
+			JsonObject error = new JsonObject();
+			error.addProperty("code", this.statusCode.getCode() + " " + this.statusCode.getMeaning());
+			error.addProperty("message", errorMessage);
+
+			obj.add("error", error);
+		}
+
+		String text = router.getGson().toJson(obj);
+		send("application/json", text);
+	}
+
+	public void setErrored(StatusCode statusCode, String message) {
+		this.statusCode = statusCode;
+		this.errorMessage = message;
+		sendJSON(null);
 	}
 
 	/**
@@ -134,7 +164,7 @@ public class Response {
 	public Gson getGson() {
 		return router.getGson();
 	}
-	
+
 	/**
 	 * Sends a file to the sender. If the file is not found, sends a 404 not found. If something else went wrong, it throws a 500 internal server error.
 	 * @param file The file to send
@@ -145,7 +175,7 @@ public class Response {
 			setStatusCode(StatusCode.NOT_FOUND).sendText("File not found.");
 			return;
 		}
-		
+
 		try {
 			Path path = file.toPath();
 			byte[] data = Files.readAllBytes(path);
@@ -166,7 +196,7 @@ public class Response {
 			try {
 				sw.close();
 			} catch (IOException ignored) {
-				
+
 			}
 		}
 	}

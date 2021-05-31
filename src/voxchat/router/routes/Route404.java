@@ -1,7 +1,7 @@
-package org.golde.router.routes;
+package voxchat.router.routes;
 
-import org.golde.router.objects.Request;
-import org.golde.router.objects.Response;
+import voxchat.router.objects.Request;
+import voxchat.router.objects.Response;
 
 /**
  * Route 404 interface. Used to create global 404 pages.

@@ -1,4 +1,4 @@
-package org.golde.router.objects;
+package voxchat.router.objects;
 
 import java.util.List;
 import java.util.Set;

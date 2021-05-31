@@ -1,4 +1,4 @@
-package org.golde.router;
+package voxchat.router;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -7,13 +7,6 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
-
-import org.golde.router.annotations.Route;
-import org.golde.router.enums.StatusCode;
-import org.golde.router.objects.Request;
-import org.golde.router.objects.Response;
-import org.golde.router.routes.Route404;
-import org.golde.router.routes.RouteDefault404;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -24,6 +17,12 @@ import com.sun.net.httpserver.HttpServer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import voxchat.router.annotations.Route;
+import voxchat.router.enums.StatusCode;
+import voxchat.router.objects.Request;
+import voxchat.router.objects.Response;
+import voxchat.router.routes.Route404;
+import voxchat.router.routes.RouteDefault404;
 
 /**
  * Main router class, extend this class to get started.

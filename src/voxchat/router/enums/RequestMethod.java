@@ -1,4 +1,4 @@
-package org.golde.router.enums;
+package voxchat.router.enums;
 
 /**
  * The method being made in the given request.
