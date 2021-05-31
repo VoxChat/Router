@@ -134,7 +134,7 @@ public class Router {
 	}
 
 	private boolean checkForDuplicates(List<MethodHolder> inClass, MethodHolder holder) {
-		String holderValue = holder.route.value();
+		String holderValue = "{version}/" + holder.route.value();
 		if(holderValue.length() != 0 && holderValue.charAt(holderValue.length() - 1) != '/') {
 			holderValue += "/";
 		}
@@ -185,7 +185,7 @@ public class Router {
 		String[] split = stripQueryParams[0].substring(1).toLowerCase().split("/");
 
 		//incase we fuck up, and add a / at the begining out of habit
-		String routeValue = route.value().toLowerCase();
+		String routeValue = "{version}/" + route.value().toLowerCase();
 		if(routeValue.length() != 0 && routeValue.charAt(0) == '/') {
 			routeValue = routeValue.substring(1);
 		}
@@ -201,10 +201,8 @@ public class Router {
 			String annString = routeSplit[i];
 			String urlString = split[i];
 			
-			//System.out.println(annString + " --- " + urlString);
-			
 			//Fixed issue with Index.html
-			if(!annString.equals(urlString)) {
+			if(!annString.equals(urlString) && !annString.startsWith("{")) {
 				return false;
 			}
 
