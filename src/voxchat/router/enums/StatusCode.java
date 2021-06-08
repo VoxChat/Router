@@ -29,6 +29,7 @@ public enum StatusCode {
 	METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
 	REQUEST_TIMEOUT(408, "Request Timeout"),
 	GONE(410, "Gone"),
+	PAYLOAD_TOO_LARGE(413, "Payload Too Large"),
 	TOO_MANY_REQUESTS(429, "Too Many Requests"),
 	
 	//500s

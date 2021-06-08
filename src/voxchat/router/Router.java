@@ -231,7 +231,7 @@ public class Router {
 
 	private void invokeMethod(HttpExchange exchange, MethodHolder holder) {
 		try {
-			holder.method.invoke(holder.clazz.newInstance(), new Request(this, exchange, holder.route.value().split("/")), new Response(this, exchange));
+			holder.method.invoke(holder.clazz.newInstance(), new Request(this, exchange, ("{version}/" + holder.route.value()).split("/")), new Response(this, exchange));
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
 			e.printStackTrace();
 		}

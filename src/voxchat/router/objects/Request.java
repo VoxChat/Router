@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
 
 import lombok.Getter;
@@ -53,13 +52,11 @@ public class Request {
 	}
 
 	private void parseWildcards(HttpExchange exchange, String[] rawWildcards) {
-		String[] split = exchange.getRequestURI().toString().substring(1).split("/");
-
+		String[] split = exchange.getRequestURI().toString().substring(1).split("/");	
 		for(int i = 0; i < rawWildcards.length; i++) {
 			String rawStr = rawWildcards[i];
 			String splitStr = split[i];
 			if(rawStr.length() !=0 && rawStr.charAt(0) == '{' && rawStr.charAt(rawStr.length() - 1) == '}') {
-				System.out.println(rawStr + " -- " + splitStr);
 				wildcards.put(rawStr.replace("{", "").replace("}", ""), splitStr);
 			}
 		}
@@ -119,7 +116,7 @@ public class Request {
 		try {
 			return router.getGson().fromJson(getBodyAsText(), JsonObject.class);
 		}
-		catch(JsonSyntaxException e) {
+		catch(Throwable e) {
 			System.err.println("Malformed JSON recieved!");
 			e.printStackTrace();
 			return null;
@@ -179,6 +176,14 @@ public class Request {
 	 */
 	public Gson getGson() {
 		return router.getGson();
+	}
+	
+	public Integer getEndpointVersion() {
+		try {
+			return Integer.parseInt(getWildcard("version").substring(1));
+		}
+		catch(NumberFormatException ignored) {}
+		return null; 
 	}
 
 }
